@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigerian Financial Churn Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-section, .result-section {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .form-section {
+            flex: 1.2;
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .result-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-section h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .result-section .status {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-section .churn-yes {
+            color: #e74c3c;
+        }
+
+        .result-section .churn-no {
+            color: #27ae60;
+        }
+
+        .result-section .prob {
+            font-size: 1.3em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .result-section .risk {
+            font-size: 1.1em;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .form-section, .result-section {
+                padding: 20px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Financial Churn Predictor</h1>
+        <p>Enter customer details to assess churn risk in the Nigerian financial sector. Powered by machine learning insights.</p>
+    </div>
+
+    <div class="container">
+        <div class="form-section">
+            <form id="churnForm" method="POST">
+                <!-- Gender -->
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+                </div>
+
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="18" max="69" required>
+                </div>
+
+                <!-- State -->
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state" name="state" required>
+                        <option value="">Select State</option>
+                        <option value="Anambra">Anambra</option>
+                        <option value="Bayelsa">Bayelsa</option>
+                        <option value="Benue">Benue</option>
+                        <option value="Delta">Delta</option>
+                        <option value="Enugu">Enugu</option>
+                        <option value="FCT Abuja">FCT Abuja</option>
+                        <option value="Imo">Imo</option>
+                        <option value="Kaduna">Kaduna</option>
+                        <option value="Kano">Kano</option>
+                        <option value="Katsina">Katsina</option>
+                        <option value="Lagos">Lagos</option>
+                        <option value="Ogun">Ogun</option>
+                        <option value="Oyo">Oyo</option>
+                        <option value="Rivers">Rivers</option>
+                    </select>
+                </div>
+
+                <!-- City Type -->
+                <div class="form-group">
+                    <label for="city_type">City Type</label>
+                    <select id="city_type" name="city_type" required>
+                        <option value="">Select City Type</option>
+                        <option value="Peri-urban">Peri-urban</option>
+                        <option value="Rural">Rural</option>
+                        <option value="Urban">Urban</option>
+                    </select>
+                </div>
+
+                <!-- Occupation -->
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <select id="occupation" name="occupation" required>
+                        <option value="">Select Occupation</option>
+                        <option value="Business Owner">Business Owner</option>
+                        <option value="Farmer">Farmer</option>
+                        <option value="Salaried">Salaried</option>
+                        <option value="Self-employed">Self-employed</option>
+                        <option value="Student">Student</option>
+                        <option value="Trader">Trader</option>
+                        <option value="Unemployed">Unemployed</option>
+                    </select>
+                </div>
+
+                <!-- Education Level -->
+                <div class="form-group">
+                    <label for="education_level">Education Level</label>
+                    <select id="education_level" name="education_level" required>
+                        <option value="">Select Education</option>
+                        <option value="No formal">No formal</option>
+                        <option value="Postgraduate">Postgraduate</option>
+                        <option value="Primary">Primary</option>
+                        <option value="Secondary">Secondary</option>
+                        <option value="Tertiary">Tertiary</option>
+                    </select>
+                </div>
+
+                <!-- Marital Status -->
+                <div class="form-group">
+                    <label for="marital_status">Marital Status</label>
+                    <select id="marital_status" name="marital_status" required>
+                        <option value="">Select Status</option>
+                        <option value="Divorced">Divorced</option>
+                        <option value="Married">Married</option>
+                        <option value="Single">Single</option>
+                        <option value="Widowed">Widowed</option>
+                    </select>
+                </div>
+
+                <!-- Num Dependents -->
+                <div class="form-group">
+                    <label for="num_dependents">Number of Dependents</label>
+                    <input type="number" id="num_dependents" name="num_dependents" min="0" max="9" required>
+                </div>
+
+                <!-- Income Monthly NGN -->
+                <div class="form-group">
+                    <label for="income_monthly_ngn">Monthly Income (NGN)</label>
+                    <input type="number" id="income_monthly_ngn" name="income_monthly_ngn" min="5000" max="1000000" step="0.01" required>
+                </div>
+
+                <!-- Avg Balance NGN -->
+                <div class="form-group">
+                    <label for="avg_balance_ngn">Average Balance (NGN)</label>
+                    <input type="number" id="avg_balance_ngn" name="avg_balance_ngn" min="14" max="378345" step="0.01" required>
+                </div>
+
+                <!-- Monthly Deposit NGN -->
+                <div class="form-group">
+                    <label for="monthly_deposit_ngn">Monthly Deposit (NGN)</label>
+                    <input type="number" id="monthly_deposit_ngn" name="monthly_deposit_ngn" min="29" max="229135" step="0.01" required>
+                </div>
+
+                <!-- Monthly Withdrawal NGN -->
+                <div class="form-group">
+                    <label for="monthly_withdrawal_ngn">Monthly Withdrawal (NGN)</label>
+                    <input type="number" id="monthly_withdrawal_ngn" name="monthly_withdrawal_ngn" min="16" max="221763" step="0.01" required>
+                </div>
+
+                <!-- Monthly Transactions -->
+                <div class="form-group">
+                    <label for="monthly_transactions">Monthly Transactions</label>
+                    <input type="number" id="monthly_transactions" name="monthly_transactions" min="1" max="19" required>
+                </div>
+
+                <!-- Num Products -->
+                <div class="form-group">
+                    <label for="num_products">Number of Products</label>
+                    <input type="number" id="num_products" name="num_products" min="1" max="4" required>
+                </div>
+
+                <!-- Has Mobile App -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="has_mobile_app" name="has_mobile_app">
+                    <label for="has_mobile_app" style="margin: 0; font-weight: normal;">Has Mobile App</label>
+                </div>
+
+                <!-- Uses Agent -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="uses_agent" name="uses_agent">
+                    <label for="uses_agent" style="margin: 0; font-weight: normal;">Uses Agent</label>
+                </div>
+
+                <!-- Loan Active -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="loan_active" name="loan_active">
+                    <label for="loan_active" style="margin: 0; font-weight: normal;">Active Loan</label>
+                </div>
+
+                <!-- Savings Goal Met -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="savings_goal_met" name="savings_goal_met">
+                    <label for="savings_goal_met" style="margin: 0; font-weight: normal;">Savings Goal Met</label>
+                </div>
+
+                <!-- Recent Complaints -->
+                <div class="form-group">
+                    <label for="recent_complaints">Recent Complaints</label>
+                    <input type="number" id="recent_complaints" name="recent_complaints" min="0" max="2" required>
+                </div>
+
+                <!-- Last Login Days Ago -->
+                <div class="form-group">
+                    <label for="last_login_days_ago">Last Login (Days Ago)</label>
+                    <input type="number" id="last_login_days_ago" name="last_login_days_ago" min="0" max="364" required>
+                </div>
+
+                <!-- BVN Verified -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="bvn_verified" name="bvn_verified">
+                    <label for="bvn_verified" style="margin: 0; font-weight: normal;">BVN Verified</label>
+                </div>
+
+                <!-- NIN Linked -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="nin_linked" name="nin_linked">
+                    <label for="nin_linked" style="margin: 0; font-weight: normal;">NIN Linked</label>
+                </div>
+
+                <!-- Telecom Provider -->
+                <div class="form-group">
+                    <label for="telecom_provider">Telecom Provider</label>
+                    <select id="telecom_provider" name="telecom_provider" required>
+                        <option value="">Select Provider</option>
+                        <option value="9mobile">9mobile</option>
+                        <option value="Airtel">Airtel</option>
+                        <option value="GLO">GLO</option>
+                        <option value="MTN">MTN</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn">Predict Churn Risk</button>
+            </form>
+
+            {% if error %}
+            <div class="error">{{ error }}</div>
+            {% endif %}
+        </div>
+
+        <div class="result-section {% if show_result %}show{% endif %}">
+            {% if show_result %}
+            <h2>Prediction Result</h2>
+            <div class="status {% if prediction == 'Likely to Churn' %}churn-yes{% else %}churn-no{% endif %}">
+                {{ prediction }}
+            </div>
+            <div class="prob">Churn Probability: {{ probability }}</div>
+            <div class="risk">{{ risk_level }}</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
