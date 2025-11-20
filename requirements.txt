@@ -1,0 +1,8 @@
+flask
+pandas as pd
+joblib
+numpy
+traceback
+scikit learn
+seaborn
+matplotlib
