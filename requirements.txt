@@ -2,7 +2,6 @@ flask
 pandas
 joblib
 numpy
-traceback
 scikit-learn
 seaborn
 matplotlib
