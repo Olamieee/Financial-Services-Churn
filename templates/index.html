@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ChurnGuard AI | Predictive Customer Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -49,7 +51,7 @@
             right: 0;
             bottom: 0;
             background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -103,7 +105,7 @@
             gap: 3rem;
             margin-top: 2rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .stat-item {
@@ -136,7 +138,7 @@
         .main-card {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             margin-bottom: 2rem;
         }
@@ -161,8 +163,13 @@
         }
 
         @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         .card-title {
@@ -321,7 +328,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -341,7 +348,7 @@
         .results {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
             animation: slideUp 0.5s ease-out;
         }
@@ -351,6 +358,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -378,8 +386,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
         }
 
         .result-title {
@@ -511,7 +528,7 @@
             background: #e2e8f0;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .progress-fill {
@@ -530,13 +547,18 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             animation: progressShine 2s infinite;
         }
 
         @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         .insight-box {
@@ -545,7 +567,7 @@
             background: white;
             border-radius: 12px;
             border-left: 4px solid #3b82f6;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .insight-title {
@@ -621,11 +643,11 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .checkbox-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .result-grid {
                 grid-template-columns: 1fr;
             }
@@ -641,9 +663,10 @@
         }
     </style>
 </head>
+
 <body>
     <div class="noise-bg"></div>
-    
+
     <div class="header">
         <div class="header-content">
             <div class="logo-container">
@@ -686,12 +709,21 @@
                             <label for="state">State</label>
                             <select name="state" id="state" required>
                                 <option value="">Select State</option>
-                                <option value="Lagos">Lagos</option>
-                                <option value="Abuja">Abuja</option>
-                                <option value="Rivers">Rivers</option>
-                                <option value="Kano">Kano</option>
+                                <option value="Imo">Imo</option>
                                 <option value="Oyo">Oyo</option>
-                                <option value="Other">Other</option>
+                                <option value="Delta">Delta</option>
+                                <option value="Katsina">Katsina</option>
+                                <option value="Bayelsa">Bayelsa</option>
+                                <option value="Kano">Kano</option>
+                                <option value="Enugu">Enugu</option>
+                                <option value="Anambra">Anambra</option>
+                                <option value="Benue">Benue</option>
+                                <option value="Rivers">Rivers</option>
+                                <option value="Lagos">Lagos</option>
+                                <option value="Kaduna">Kaduna</option>
+                                <option value="Ogun">Ogun</option>
+                                <option value="FCT Abuja">FCT Abuja</option>
+                                <option value="Other">Other States</option>
                             </select>
                         </div>
 
@@ -700,7 +732,7 @@
                             <select name="city_type" id="city_type" required>
                                 <option value="">Select City Type</option>
                                 <option value="Urban">Urban</option>
-                                <option value="Suburban">Suburban</option>
+                                <option value="Peri-urban">Peri-urban</option>
                                 <option value="Rural">Rural</option>
                             </select>
                         </div>
@@ -709,11 +741,13 @@
                             <label for="occupation">Occupation</label>
                             <select name="occupation" id="occupation" required>
                                 <option value="">Select Occupation</option>
-                                <option value="Employed">Employed</option>
-                                <option value="Self-Employed">Self-Employed</option>
-                                <option value="Student">Student</option>
+                                <option value="Salaried">Salaried (Employed)</option>
+                                <option value="Self-employed">Self-employed</option>
+                                <option value="Business Owner">Business Owner</option>
                                 <option value="Unemployed">Unemployed</option>
-                                <option value="Retired">Retired</option>
+                                <option value="Trader">Trader</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="Student">Student</option>
                             </select>
                         </div>
 
@@ -721,27 +755,29 @@
                             <label for="education_level">Education Level</label>
                             <select name="education_level" id="education_level" required>
                                 <option value="">Select Education Level</option>
-                                <option value="Primary">Primary</option>
-                                <option value="Secondary">Secondary</option>
-                                <option value="Tertiary">Tertiary</option>
                                 <option value="Postgraduate">Postgraduate</option>
+                                <option value="Tertiary">Tertiary (University/College)</option>
+                                <option value="Secondary">Secondary</option>
+                                <option value="Primary">Primary</option>
+                                <option value="No formal">No Formal Education</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="marital_status">Marital Status</label>
                             <select name="marital_status" id="marital_status" required>
-                                <option value="">Select Status</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Divorced">Divorced</option>
+                                <option value="">Select Marital Status</option>
                                 <option value="Widowed">Widowed</option>
+                                <option value="Married">Married</option>
+                                <option value="Single">Single</option>
+                                <option value="Divorced">Divorced</option>
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label for="num_dependents">Number of Dependents</label>
-                            <input type="number" name="num_dependents" id="num_dependents" required min="0" max="20" placeholder="e.g., 2">
+                            <input type="number" name="num_dependents" id="num_dependents" required min="0" max="20"
+                                placeholder="e.g., 2">
                         </div>
                     </div>
 
@@ -752,22 +788,26 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="income_monthly_ngn">Monthly Income (₦)</label>
-                            <input type="number" name="income_monthly_ngn" id="income_monthly_ngn" required min="0" step="0.01" placeholder="e.g., 150000">
+                            <input type="number" name="income_monthly_ngn" id="income_monthly_ngn" required min="0"
+                                step="0.01" placeholder="e.g., 150000">
                         </div>
 
                         <div class="form-group">
                             <label for="avg_balance_ngn">Average Balance (₦)</label>
-                            <input type="number" name="avg_balance_ngn" id="avg_balance_ngn" required min="0" step="0.01" placeholder="e.g., 75000">
+                            <input type="number" name="avg_balance_ngn" id="avg_balance_ngn" required min="0"
+                                step="0.01" placeholder="e.g., 75000">
                         </div>
 
                         <div class="form-group">
                             <label for="monthly_deposit_ngn">Monthly Deposit (₦)</label>
-                            <input type="number" name="monthly_deposit_ngn" id="monthly_deposit_ngn" required min="0" step="0.01" placeholder="e.g., 200000">
+                            <input type="number" name="monthly_deposit_ngn" id="monthly_deposit_ngn" required min="0"
+                                step="0.01" placeholder="e.g., 200000">
                         </div>
 
                         <div class="form-group">
                             <label for="monthly_withdrawal_ngn">Monthly Withdrawal (₦)</label>
-                            <input type="number" name="monthly_withdrawal_ngn" id="monthly_withdrawal_ngn" required min="0" step="0.01" placeholder="e.g., 180000">
+                            <input type="number" name="monthly_withdrawal_ngn" id="monthly_withdrawal_ngn" required
+                                min="0" step="0.01" placeholder="e.g., 180000">
                         </div>
                     </div>
 
@@ -778,81 +818,85 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="monthly_transactions">Monthly Transactions</label>
-                            <input type="number" name="monthly_transactions" id="monthly_transactions" required min="0" placeholder="e.g., 45">
+                            <input type="number" name="monthly_transactions" id="monthly_transactions" required min="0"
+                                placeholder="e.g., 45">
                         </div>
 
                         <div class="form-group">
                             <label for="num_products">Number of Products</label>
-                            <input type="number" name="num_products" id="num_products" required min="0" max="10" placeholder="e.g., 3">
+                            <input type="number" name="num_products" id="num_products" required min="0" max="10"
+                                placeholder="e.g., 3">
                         </div>
 
                         <div class="form-group">
                             <label for="last_login_days_ago">Last Login (Days Ago)</label>
-                            <input type="number" name="last_login_days_ago" id="last_login_days_ago" required min="0" placeholder="e.g., 5">
+                            <input type="number" name="last_login_days_ago" id="last_login_days_ago" required min="0"
+                                placeholder="e.g., 5">
                         </div>
                         <div class="form-group">
                             <label for="recent_complaints">Recent Complaints</label>
-                            <input type="number" name="recent_complaints" id="recent_complaints" required min="0" placeholder="e.g., 0">
+                            <input type="number" name="recent_complaints" id="recent_complaints" required min="0"
+                                placeholder="e.g., 0">
                         </div>
 
                         <div class="form-group">
                             <label for="telecom_provider">Telecom Provider</label>
                             <select name="telecom_provider" id="telecom_provider" required>
-                                <option value="">Select Provider</option>
+                                <option value="">Select Telecom Provider</option>
+                                <option value="GLO">GLO</option>
+                                <option value="Other">Other</option>
+                                <option value="9mobile">9mobile</option>
                                 <option value="MTN">MTN</option>
                                 <option value="Airtel">Airtel</option>
-                                <option value="Glo">Glo</option>
-                                <option value="9mobile">9mobile</option>
-                            </select>
+                            </select </div>
                         </div>
-                    </div>
 
-                    <div class="section-divider">
-                        <div class="section-title">✨ Service Features</div>
-                        <div class="section-line"></div>
-                    </div>
-                    <div class="checkbox-section">
-                        <div class="checkbox-grid">
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="has_mobile_app" id="has_mobile_app">
-                                <label for="has_mobile_app">📱 Has Mobile App</label>
-                            </div>
+                        <div class="section-divider">
+                            <div class="section-title">✨ Service Features</div>
+                            <div class="section-line"></div>
+                        </div>
+                        <div class="checkbox-section">
+                            <div class="checkbox-grid">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="has_mobile_app" id="has_mobile_app">
+                                    <label for="has_mobile_app">📱 Has Mobile App</label>
+                                </div>
 
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="uses_agent" id="uses_agent">
-                                <label for="uses_agent">🏪 Uses Agent Banking</label>
-                            </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="uses_agent" id="uses_agent">
+                                    <label for="uses_agent">🏪 Uses Agent Banking</label>
+                                </div>
 
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="loan_active" id="loan_active">
-                                <label for="loan_active">💳 Active Loan</label>
-                            </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="loan_active" id="loan_active">
+                                    <label for="loan_active">💳 Active Loan</label>
+                                </div>
 
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="savings_goal_met" id="savings_goal_met">
-                                <label for="savings_goal_met">🎯 Savings Goal Met</label>
-                            </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="savings_goal_met" id="savings_goal_met">
+                                    <label for="savings_goal_met">🎯 Savings Goal Met</label>
+                                </div>
 
-                            <!-- <div class="checkbox-item">
+                                <!-- <div class="checkbox-item">
                                 <input type="checkbox" name="recent_complaints" id="recent_complaints">
                                 <label for="recent_complaints">⚠️ Recent Complaints</label>
                             </div> -->
 
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="bvn_verified" id="bvn_verified">
-                                <label for="bvn_verified">✓ BVN Verified</label>
-                            </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="bvn_verified" id="bvn_verified">
+                                    <label for="bvn_verified">✓ BVN Verified</label>
+                                </div>
 
-                            <div class="checkbox-item">
-                                <input type="checkbox" name="nin_linked" id="nin_linked">
-                                <label for="nin_linked">✓ NIN Linked</label>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" name="nin_linked" id="nin_linked">
+                                    <label for="nin_linked">✓ NIN Linked</label>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="submit-container">
-                        <button type="submit" class="submit-btn">🚀 Analyze Churn Risk</button>
-                    </div>
+                        <div class="submit-container">
+                            <button type="submit" class="submit-btn">🚀 Analyze Churn Risk</button>
+                        </div>
                 </form>
 
                 {% if error %}
@@ -903,9 +947,12 @@
                     <div class="insight-title">AI Recommendation</div>
                     <div class="insight-text">
                         {% if prediction == 'Likely to Churn' %}
-                        This customer shows signs of potential churn. Consider immediate intervention: personalized retention offers, dedicated account manager outreach, or exclusive product benefits to re-engage.
+                        This customer shows signs of potential churn. Consider immediate intervention: personalized
+                        retention offers, dedicated account manager outreach, or exclusive product benefits to
+                        re-engage.
                         {% else %}
-                        This customer shows strong retention indicators. Focus on enhancing their experience through loyalty rewards, product cross-selling opportunities, and maintaining service excellence.
+                        This customer shows strong retention indicators. Focus on enhancing their experience through
+                        loyalty rewards, product cross-selling opportunities, and maintaining service excellence.
                         {% endif %}
                     </div>
                 </div>
@@ -918,9 +965,9 @@
         // Add smooth scroll to results
         {% if show_result and not error %}
         setTimeout(() => {
-            document.querySelector('.results').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
+            document.querySelector('.results').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
             });
         }, 100);
         {% endif %}
@@ -928,9 +975,9 @@
         // Form validation feedback
         const form = document.querySelector('form');
         const inputs = form.querySelectorAll('input, select');
-        
+
         inputs.forEach(input => {
-            input.addEventListener('blur', function() {
+            input.addEventListener('blur', function () {
                 if (this.value && this.checkValidity()) {
                     this.style.borderColor = '#22c55e';
                 } else if (this.value) {
@@ -938,22 +985,22 @@
                 }
             });
 
-            input.addEventListener('focus', function() {
+            input.addEventListener('focus', function () {
                 this.style.borderColor = '#3b82f6';
             });
         });
 
         // Number formatting for currency fields
         const currencyFields = ['income_monthly_ngn', 'avg_balance_ngn', 'monthly_deposit_ngn', 'monthly_withdrawal_ngn'];
-        
+
         currencyFields.forEach(fieldId => {
             const field = document.getElementById(fieldId);
             if (field) {
-                field.addEventListener('blur', function() {
+                field.addEventListener('blur', function () {
                     if (this.value) {
                         const num = parseFloat(this.value);
                         if (!isNaN(num)) {
-                            this.setAttribute('data-formatted', '₦' + num.toLocaleString('en-NG', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
+                            this.setAttribute('data-formatted', '₦' + num.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
                         }
                     }
                 });
@@ -961,4 +1008,5 @@
         });
     </script>
 </body>
+
 </html>
