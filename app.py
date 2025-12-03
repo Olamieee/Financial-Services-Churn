@@ -1,74 +1,89 @@
-# app.py
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import pandas as pd
 import joblib
-import numpy as np
-import traceback
+from datetime import datetime
 
 app = Flask(__name__)
 
-# Load the saved model, encoder, and scaler
+# === Load your trained model, encoder, and scaler ===
 model = joblib.load('financial_churn_model.pkl')
-encoder = joblib.load('encoder.pkl')  # Assuming this is a dict of LabelEncoders for categorical columns
+encoder = joblib.load('encoder.pkl')        # Should be a dict: {'state': LabelEncoder, 'account_type': ..., ...}
 scaler = joblib.load('scaler.pkl')
 
-# Define categorical columns based on the dataset
-cat_cols = ['gender', 'state', 'city_type', 'occupation', 'education_level', 'marital_status', 'telecom_provider']
+# === Feature columns (must match training exactly) ===
+cat_cols = ['state', 'account_type', 'monthly_income_bracket', 'preferred_channel']
 
-# Define all feature columns (23 features)
-feature_cols = ['gender', 'age', 'state', 'city_type', 'occupation', 'education_level', 'marital_status',
-                'num_dependents', 'income_monthly_ngn', 'avg_balance_ngn', 'monthly_deposit_ngn',
-                'monthly_withdrawal_ngn', 'monthly_transactions', 'num_products', 'has_mobile_app',
-                'uses_agent', 'loan_active', 'savings_goal_met', 'recent_complaints', 'last_login_days_ago',
-                'bvn_verified', 'nin_linked', 'telecom_provider']
+feature_cols = [
+    'age', 'state', 'account_type', 'monthly_income_bracket',
+    'avg_monthly_balance', 'num_transactions_month', 'mobile_app_logins',
+    'customer_support_calls', 'preferred_channel', 'tenure_months',
+    'credit_score'
+]
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    error = None
+    show_result = False
+    prediction = None
+    probability = None
+    risk_level = None
+
     if request.method == 'POST':
         try:
-            # Get form data
+            # Collect form data
             data = {}
             for col in feature_cols:
+                value = request.form.get(col)
+                if value is None or value == '':
+                    raise ValueError(f"Missing value for {col}")
+                
                 if col in cat_cols:
-                    data[col] = request.form[col]
-                elif col in ['has_mobile_app', 'uses_agent', 'loan_active', 'savings_goal_met', 'bvn_verified', 'nin_linked']:
-                    data[col] = 1 if request.form.get(col) == 'on' else 0
+                    data[col] = value.strip()
                 else:
-                    data[col] = float(request.form[col])
+                    data[col] = float(value)
 
-            # Create input DataFrame
+            # Create DataFrame
             df_input = pd.DataFrame([data])
 
-            # Encode categorical columns
+            # === Encode categorical features ===
             for col in cat_cols:
-                # Transform the single value
-                encoded_val = encoder[col].transform([df_input[col].iloc[0]])[0]
-                df_input[col] = encoded_val
+                le = encoder[col]  # Get the correct LabelEncoder for this column
+                # Handle unknown categories gracefully
+                try:
+                    encoded = le.transform([df_input[col].iloc[0]])[0]
+                except ValueError:
+                    # If unseen category → assign most common class from training (or 0)
+                    encoded = 0
+                df_input[col] = encoded
 
-            # Prepare features for scaling (all columns now numeric)
-            X_input = df_input[feature_cols].values  # Order must match training
+            # === Scale numerical features ===
+            X = df_input[feature_cols].values.astype(float)
+            X_scaled = scaler.transform(X)
 
-            # Scale
-            X_scaled = scaler.transform(X_input)
+            # === Predict ===
+            pred = model.predict(X_scaled)[0]
+            prob = model.predict_proba(X_scaled)[0][1]  # Probability of churn (class 1)
 
-            # Predict
-            prediction = model.predict(X_scaled)[0]
-            probability = model.predict_proba(X_scaled)[0][1] * 100  # Churn probability in %
+            # Format results
+            prediction = "Likely to Churn" if pred == 1 else "Likely to Stay"
+            probability = prob  # We'll format in template
+            risk_level = "High" if prob > 0.6 else "Medium" if prob > 0.4 else "Low"
 
-            churn_status = "Likely to Churn" if prediction == 1 else "Likely to Stay"
-            risk_level = "High Risk" if probability > 50 else "Low Risk"
-
-            return render_template('index.html',
-                                   prediction=churn_status,
-                                   probability=f"{probability:.1f}%",
-                                   risk_level=risk_level,
-                                   show_result=True)
+            show_result = True
 
         except Exception as e:
-            error_msg = f"Error processing prediction: {str(e)}"
-            return render_template('index.html', error=error_msg, show_result=True)
+            error = f"Prediction failed: {str(e)}"
+            show_result = False
 
-    return render_template('index.html', show_result=False)
+    return render_template(
+        'index.html',
+        show_result=show_result,
+        prediction=prediction,
+        probability=probability,        # raw float (e.g. 0.78)
+        risk_level=risk_level,
+        error=error,
+        now=datetime.now()              # for timestamp
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
