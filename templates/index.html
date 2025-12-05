@@ -3,88 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChurnGuard AI | Predictive Customer Intelligence</title>
+    <title>ChurnGuard AI | Customer Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* === ALL YOUR ORIGINAL BEAUTIFUL CSS (unchanged) === */
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body {font-family:'Inter',sans-serif; background:#0f172a; color:#1a1a1a; line-height:1.6; min-height:100vh;}
-        .noise-bg {position:fixed; top:0; left:0; width:100%; height:100%; opacity:0.03; z-index:0;
-            background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");}
-        .header {position:relative; background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#334155 100%); color:white; padding:3rem 1.5rem 4rem; overflow:hidden;}
-        .header::before {content:''; position:absolute; top:0; left:0; right:0; bottom:0;
-            background:radial-gradient(circle at 20% 50%,rgba(59,130,246,0.15)0%,transparent 50%),
-                       radial-gradient(circle at 80% 80%,rgba(139,92,246,0.15)0%,transparent 50%); pointer-events:none;}
-        .header-content {max-width:1200px; margin:0 auto; position:relative; z-index:1;}
-        .logo-container {display:flex; align-items:center; gap:1rem; margin-bottom:1rem;}
-        .logo-icon {width:48px; height:48px; background:linear-gradient(135deg,#3b82f6,#8b5cf6); border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.5rem; color:white; box-shadow:0 4px 20px rgba(59,130,246,0.4);}
-        .logo {font-size:2rem; font-weight:800; letter-spacing:-1px;}
-        .logo-ai {color:#3b82f6; font-weight:300;}
-        .tagline {opacity:0.9; font-size:1.1rem; margin-top:0.5rem;}
-        .stats-bar {display:flex; gap:3rem; margin-top:2rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,0.1);}
-        .stat-value {font-size:1.75rem; font-weight:700; color:#3b82f6;}
-        .stat-label {font-size:0.8rem; opacity:0.7; text-transform:uppercase; letter-spacing:1px; margin-top:0.25rem;}
-        .container {max-width:1200px; margin:-2rem auto 4rem; padding:0 1.5rem; position:relative; z-index:1;}
-        .main-card {background:white; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.3); overflow:hidden; margin-bottom:2rem;}
-        .card-header {padding:2rem; background:linear-gradient(135deg,#f8fafc 0%,#f1f5f9 100%); border-bottom:1px solid #e2e8f0; position:relative;}
-        .card-header::after {content:''; position:absolute; bottom:0; left:0; width:100%; height:3px;
-            background:linear-gradient(90deg,#3b82f6,#8b5cf6,#3b82f6); background-size:200% 100%; animation:shimmer 3s linear infinite;}
-        @keyframes shimmer {0%{background-position:200% 0}100%{background-position:-200% 0}}
-        .card-title {font-size:1.5rem; font-weight:700; color:#1e293b; display:flex; align-items:center; gap:0.75rem;}
-        .card-title::before {content:'Target'; font-size:1.75rem;}
-        .card-body {padding:2.5rem 2rem;}
-        .form-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.75rem;}
-        .form-group {display:flex; flex-direction:column;}
-        label {font-size:0.875rem; font-weight:600; color:#475569; margin-bottom:0.625rem; display:flex; align-items:center; gap:0.5rem;}
-        label::before {content:''; width:4px; height:4px; background:#3b82f6; border-radius:50%;}
-        input, select {padding:0.875rem 1rem; border:2px solid #e2e8f0; border-radius:10px; font-size:1rem; transition:all .3s;}
-        input:focus, select:focus {outline:none; border-color:#3b82f6; box-shadow:0 0 0 4px rgba(59,130,246,0.1);}
-        .submit-container {margin-top:2.5rem; text-align:center;}
-        .submit-btn {background:linear-gradient(135deg,#3b82f6,#2563eb); color:white; padding:1.125rem 3.5rem; border:none; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 4px 20px rgba(59,130,246,0.4);}
-        .submit-btn:hover {transform:translateY(-2px); box-shadow:0 8px 30px rgba(59,130,246,0.5);}
-        .results {background:white; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation:slideUp .6s ease-out;}
-        @keyframes slideUp {from{opacity:0; transform:translateY(30px)}to{opacity:1; transform:none}}
-        .result-header {text-align:center; padding:2.5rem 2rem 1.5rem; background:linear-gradient(135deg,#1e293b,#334155); color:white;}
-        .result-title {font-size:2rem; font-weight:800;}
-        .result-subtitle {opacity:0.9; font-size:1rem;}
-        .result-content {padding:2.5rem 2rem;}
-        .result-grid {display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-bottom:2rem;}
-        .result-card {padding:2rem; border-radius:12px; text-align:center; position:relative; overflow:hidden;}
-        .result-card::before {content:''; position:absolute; top:0; left:0; right:0; height:4px;}
-        .result-card.churn {background:linear-gradient(135deg,#fef2f2,#fee2e2); border:2px solid #fecaca;}
-        .result-card.churn::before {background:linear-gradient(90deg,#ef4444,#dc2626);}
-        .result-card.stay {background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #bbf7d0;}
-        .result-card.stay::before {background:linear-gradient(90deg,#22c55e,#16a34a);}
-        .result-card.neutral {background:linear-gradient(135deg,#fefce8,#fef9c3); border:2px solid #fde047;}
-        .result-card.neutral::before {background:linear-gradient(90deg,#eab308,#ca8a04);}
-        .result-icon {font-size:2.5rem; margin-bottom:1rem;}
-        .result-value {font-size:2.25rem; font-weight:800; color:#1e293b;}
-        .probability-section {padding:2rem; background:linear-gradient(135deg,#f8fafc,#f1f5f9); border-radius:12px; margin-top:2rem;}
-        .progress-container {height:16px; background:#e2e8f0; border-radius:8px; overflow:hidden;}
-        .progress-fill {height:100%; background:linear-gradient(90deg,#3b82f6,#8b5cf6); transition:width 1.8s ease;}
-        .insight-box {margin-top:2rem; padding:1.5rem; background:white; border-left:4px solid #3b82f6; border-radius:12px;}
-        .insight-title {font-weight:600; color:#1e293b; display:flex; align-items:center; gap:0.5rem;}
-        .insight-title::before {content:'Lightbulb';}
-        .error {padding:1.25rem; background:#fee2e2; border:2px solid #fecaca; border-radius:12px; color:#991b1b; margin-top:1.5rem;}
-        @media (max-width:768px){.form-grid,.result-grid{grid-template-columns:1fr;}}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #e2e8f0;
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #f8fafc;
+            border-bottom: 1px solid #cbd5e1;
+            padding: 1.5rem;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #2563eb;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: white;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .tagline {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-left: 48px;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #f1f5f9;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 0.25rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Cards */
+        .main-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .card-body {
+            padding: 2rem 1.5rem;
+        }
+
+        /* Form */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            padding: 0.625rem 0.875rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.9375rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .submit-container {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .submit-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.875rem 2.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Results */
+        .results {
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .result-header {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: #e2e8f0;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+
+        .result-subtitle {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .result-content {
+            padding: 2rem 1.5rem;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .result-card {
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid;
+        }
+
+        .result-card.churn {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-color: #fca5a5;
+        }
+
+        .result-card.stay {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+            border-color: #86efac;
+        }
+
+        .result-card.neutral {
+            background: linear-gradient(135deg, #fefce8 0%, #fef08a 100%);
+            border-color: #fde047;
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .result-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .probability-section {
+            padding: 1.5rem;
+            background: #e2e8f0;
+            border-radius: 8px;
+            margin-top: 1.5rem;
+        }
+
+        .probability-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .probability-title {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .probability-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .progress-container {
+            height: 12px;
+            background: #cbd5e1;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #2563eb;
+            transition: width 1s ease;
+            border-radius: 6px;
+        }
+
+        .insight-box {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 3px solid #2563eb;
+            border-radius: 8px;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text {
+            color: #475569;
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        .error {
+            padding: 1rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            color: #991b1b;
+            margin-top: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .tagline {
+                font-size: 0.8125rem;
+                margin-left: 40px;
+            }
+
+            .stats-bar {
+                gap: 1rem;
+                margin-top: 1rem;
+                padding-top: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.75rem;
+            }
+
+            .card-body {
+                padding: 1.5rem 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .result-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .result-title {
+                font-size: 1.25rem;
+            }
+
+            .result-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-value {
+                font-size: 1.75rem;
+            }
+
+            .probability-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .stat-item {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="noise-bg"></div>
-
     <header class="header">
         <div class="header-content">
             <div class="logo-container">
                 <div class="logo-icon">CG</div>
-                <h1 class="logo">Churn<span class="logo-ai">Guard AI</span></h1>
+                <h1 class="logo">ChurnGuard AI</h1>
             </div>
             <p class="tagline">Predictive Customer Intelligence for Nigerian Banks</p>
             <div class="stats-bar">
-                <div class="stat-item"><div class="stat-value">95.2%</div><div class="stat-label">Accuracy</div></div>
-                <div class="stat-item"><div class="stat-value">Less than or equal to 3s</div><div class="stat-label">Real-time</div></div>
-                <div class="stat-item"><div class="stat-value">127K+</div><div class="stat-label">Customers</div></div>
+                <div class="stat-item">
+                    <div class="stat-value">95.2%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">≤3s</div>
+                    <div class="stat-label">Real-time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">127K+</div>
+                    <div class="stat-label">Customers</div>
+                </div>
             </div>
         </div>
     </header>
@@ -97,7 +452,10 @@
             <div class="card-body">
                 <form method="POST">
                     <div class="form-grid">
-                        <div class="form-group"><label for="age">Age</label><input type="number" name="age" id="age" required min="18" max="100"></div>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" name="age" id="age" required min="18" max="100">
+                        </div>
                         <div class="form-group">
                             <label for="state">State</label>
                             <select name="state" id="state" required>
@@ -131,10 +489,22 @@
                                 <option>Greater than NGN 600,000</option>
                             </select>
                         </div>
-                        <div class="form-group"><label for="avg_monthly_balance">Avg Monthly Balance (NGN)</label><input type="number" name="avg_monthly_balance" id="avg_monthly_balance" required></div>
-                        <div class="form-group"><label for="num_transactions_month">Transactions per Month</label><input type="number" name="num_transactions_month" id="num_transactions_month" required></div>
-                        <div class="form-group"><label for="mobile_app_logins">Mobile App Logins (Monthly)</label><input type="number" name="mobile_app_logins" id="mobile_app_logins" required></div>
-                        <div class="form-group"><label for="customer_support_calls">Support Calls (Last 6 Months)</label><input type="number" name="customer_support_calls" id="customer_support_calls" required></div>
+                        <div class="form-group">
+                            <label for="avg_monthly_balance">Avg Monthly Balance (NGN)</label>
+                            <input type="number" name="avg_monthly_balance" id="avg_monthly_balance" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="num_transactions_month">Transactions per Month</label>
+                            <input type="number" name="num_transactions_month" id="num_transactions_month" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mobile_app_logins">Mobile App Logins (Monthly)</label>
+                            <input type="number" name="mobile_app_logins" id="mobile_app_logins" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer_support_calls">Support Calls (Last 6 Months)</label>
+                            <input type="number" name="customer_support_calls" id="customer_support_calls" required>
+                        </div>
                         <div class="form-group">
                             <label for="preferred_channel">Preferred Channel</label>
                             <select name="preferred_channel" id="preferred_channel" required>
@@ -142,8 +512,14 @@
                                 <option>ATM</option><option>Branch</option><option>Mobile App</option><option>USSD</option>
                             </select>
                         </div>
-                        <div class="form-group"><label for="tenure_months">Tenure (Months)</label><input type="number" name="tenure_months" id="tenure_months" required></div>
-                        <div class="form-group"><label for="credit_score">Credit Score</label><input type="number" name="credit_score" id="credit_score" required min="300" max="900"></div>
+                        <div class="form-group">
+                            <label for="tenure_months">Tenure (Months)</label>
+                            <input type="number" name="tenure_months" id="tenure_months" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="credit_score">Credit Score</label>
+                            <input type="number" name="credit_score" id="credit_score" required min="300" max="900">
+                        </div>
                     </div>
                     <div class="submit-container">
                         <button type="submit" class="submit-btn">Predict Churn Risk</button>
@@ -153,7 +529,11 @@
         </div>
 
         {% if error %}
-        <div class="main-card"><div class="card-body"><div class="error">{{ error }}</div></div></div>
+        <div class="main-card">
+            <div class="card-body">
+                <div class="error">{{ error }}</div>
+            </div>
+        </div>
         {% endif %}
 
         {% if show_result and not error %}
@@ -162,26 +542,24 @@
                 <h3 class="result-title">
                     {% if probability > 0.5 %}High Churn Risk Detected{% else %}Customer Likely to Stay{% endif %}
                 </h3>
-                <p class="result-subtitle">
-                    AI Prediction • {{ now.strftime("%d %b %Y, %H:%M") }}
-                </p>
+                <p class="result-subtitle">AI Prediction • {{ now.strftime("%d %b %Y, %H:%M") }}</p>
             </div>
 
             <div class="result-content">
                 <div class="result-grid">
                     <div class="result-card churn">
-                        <div class="result-icon">Leave</div>
+                        <div class="result-icon">⚠️</div>
                         <div class="result-label">Churn Probability</div>
                         <div class="result-value">{{ "%.1f" % (probability * 100) }}%</div>
                     </div>
                     <div class="result-card stay">
-                        <div class="result-icon">Stay</div>
+                        <div class="result-icon">✓</div>
                         <div class="result-label">Retention Chance</div>
                         <div class="result-value">{{ "%.1f" % ((1 - probability) * 100) }}%</div>
                     </div>
                     <div class="result-card {% if probability > 0.6 %}churn{% elif probability > 0.4 %}neutral{% else %}stay{% endif %}">
                         <div class="result-icon">
-                            {% if probability > 0.6 %}Warning{% elif probability > 0.4 %}Alert{% else %}Checkmark{% endif %}
+                            {% if probability > 0.6 %}🔴{% elif probability > 0.4 %}🟡{% else %}🟢{% endif %}
                         </div>
                         <div class="result-label">Risk Level</div>
                         <div class="result-value">
@@ -219,7 +597,7 @@
 
     <script>
         {% if show_result and not error %}
-        setTimeout(() => document.querySelector('.results').scrollIntoView({behavior:'smooth'}), 150);
+        setTimeout(() => document.querySelector('.results').scrollIntoView({behavior:'smooth', block: 'start'}), 150);
         {% endif %}
     </script>
 </body>
