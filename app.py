@@ -1,13 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import pandas as pd
 import joblib
 from datetime import datetime
 
 app = Flask(__name__)
+app.secret_key = 'your-secret-key-here-change-this'  # Required for sessions
 
 # === Load your trained model, encoder, and scaler ===
 model = joblib.load('financial_churn_model.pkl')
-encoder = joblib.load('encoder.pkl')        # Should be a dict: {'state': LabelEncoder, 'account_type': ..., ...}
+encoder = joblib.load('encoder.pkl')
 scaler = joblib.load('scaler.pkl')
 
 # === Feature columns (must match training exactly) ===
@@ -20,70 +21,84 @@ feature_cols = [
     'credit_score'
 ]
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET'])
 def index():
-    error = None
-    show_result = False
-    prediction = None
-    probability = None
-    risk_level = None
-
-    if request.method == 'POST':
-        try:
-            # Collect form data
-            data = {}
-            for col in feature_cols:
-                value = request.form.get(col)
-                if value is None or value == '':
-                    raise ValueError(f"Missing value for {col}")
-                
-                if col in cat_cols:
-                    data[col] = value.strip()
-                else:
-                    data[col] = float(value)
-
-            # Create DataFrame
-            df_input = pd.DataFrame([data])
-
-            # === Encode categorical features ===
-            for col in cat_cols:
-                le = encoder[col]  # Get the correct LabelEncoder for this column
-                # Handle unknown categories gracefully
-                try:
-                    encoded = le.transform([df_input[col].iloc[0]])[0]
-                except ValueError:
-                    # If unseen category → assign most common class from training (or 0)
-                    encoded = 0
-                df_input[col] = encoded
-
-            # === Scale numerical features ===
-            X = df_input[feature_cols].values.astype(float)
-            X_scaled = scaler.transform(X)
-
-            # === Predict ===
-            pred = model.predict(X_scaled)[0]
-            prob = model.predict_proba(X_scaled)[0][1]  # Probability of churn (class 1)
-
-            # Format results
-            prediction = "Likely to Churn" if pred == 1 else "Likely to Stay"
-            probability = prob  # We'll format in template
-            risk_level = "High" if prob > 0.6 else "Medium" if prob > 0.4 else "Low"
-
-            show_result = True
-
-        except Exception as e:
-            error = f"Prediction failed: {str(e)}"
-            show_result = False
+    # Retrieve results from session if they exist
+    show_result = session.get('show_result', False)
+    prediction = session.get('prediction')
+    probability = session.get('probability')
+    risk_level = session.get('risk_level')
+    error = session.get('error')
+    
+    # Clear session data after displaying
+    session.pop('show_result', None)
+    session.pop('prediction', None)
+    session.pop('probability', None)
+    session.pop('risk_level', None)
+    session.pop('error', None)
 
     return render_template(
         'index.html',
         show_result=show_result,
         prediction=prediction,
-        probability=probability,        # raw float (e.g. 0.78)
+        probability=probability,
         risk_level=risk_level,
         error=error,
-        now=datetime.now()              # for timestamp
+        now=datetime.now()
     )
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Collect form data
+        data = {}
+        for col in feature_cols:
+            value = request.form.get(col)
+            if value is None or value == '':
+                raise ValueError(f"Missing value for {col}")
+            
+            if col in cat_cols:
+                data[col] = value.strip()
+            else:
+                data[col] = float(value)
+
+        # Create DataFrame
+        df_input = pd.DataFrame([data])
+
+        # === Encode categorical features ===
+        for col in cat_cols:
+            le = encoder[col]
+            try:
+                encoded = le.transform([df_input[col].iloc[0]])[0]
+            except ValueError:
+                encoded = 0
+            df_input[col] = encoded
+
+        # === Scale numerical features ===
+        X = df_input[feature_cols].values.astype(float)
+        X_scaled = scaler.transform(X)
+
+        # === Predict ===
+        pred = model.predict(X_scaled)[0]
+        prob = model.predict_proba(X_scaled)[0][1]
+
+        # Format results
+        prediction = "Likely to Churn" if pred == 1 else "Likely to Stay"
+        probability = prob
+        risk_level = "High" if prob > 0.6 else "Medium" if prob > 0.4 else "Low"
+
+        # Store results in session
+        session['show_result'] = True
+        session['prediction'] = prediction
+        session['probability'] = probability
+        session['risk_level'] = risk_level
+
+    except Exception as e:
+        session['error'] = f"Prediction failed: {str(e)}"
+        session['show_result'] = False
+
+    # Redirect to GET route (prevents resubmission on refresh)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)
