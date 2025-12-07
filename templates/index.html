@@ -62,32 +62,17 @@
             margin-left: 48px;
         }
 
-        .stats-bar {
-            display: flex;
-            gap: 2rem;
+        .intro-text {
             margin-top: 1.5rem;
             padding-top: 1.5rem;
-            border-top: 1px solid #f1f5f9;
-            flex-wrap: wrap;
+            border-top: 1px solid #cbd5e1;
         }
 
-        .stat-item {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 0.25rem;
+        .intro-text p {
+            color: #475569;
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            max-width: 800px;
         }
 
         /* Container */
@@ -332,6 +317,172 @@
             margin-top: 1rem;
         }
 
+        /* Mode Selector */
+        .mode-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            background: #f8fafc;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .mode-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Batch Upload Styles */
+        .upload-info {
+            margin-bottom: 2rem;
+        }
+
+        .upload-info h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-info p {
+            color: #64748b;
+            font-size: 0.9375rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .required-columns {
+            background: #f8fafc;
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 1.5rem;
+        }
+
+        .required-columns h4 {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.75rem;
+        }
+
+        .required-columns ul {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            list-style: none;
+            padding: 0;
+        }
+
+        .required-columns li {
+            color: #64748b;
+            font-size: 0.875rem;
+            padding: 0.25rem 0;
+        }
+
+        .required-columns li::before {
+            content: '✓ ';
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .download-template {
+            text-align: center;
+        }
+
+        .template-btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #f8fafc;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .template-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .upload-zone {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .upload-zone input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 2rem;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-zone:hover .file-label {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .upload-subtext {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .file-name {
+            margin-top: 1rem;
+            text-align: center;
+            color: #2563eb;
+            font-weight: 500;
+            font-size: 0.9375rem;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header {
@@ -347,14 +498,13 @@
                 margin-left: 40px;
             }
 
-            .stats-bar {
-                gap: 1rem;
+            .intro-text {
                 margin-top: 1rem;
                 padding-top: 1rem;
             }
 
-            .stat-value {
-                font-size: 1.25rem;
+            .intro-text p {
+                font-size: 0.875rem;
             }
 
             .container {
@@ -408,13 +558,25 @@
                 font-size: 1rem;
             }
 
-            .stats-bar {
-                flex-direction: column;
-                gap: 0.75rem;
+            .intro-text p {
+                font-size: 0.8125rem;
             }
 
-            .stat-item {
-                min-width: 100%;
+            .mode-selector {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .mode-btn {
+                padding: 0.875rem;
+            }
+
+            .required-columns ul {
+                grid-template-columns: 1fr;
+            }
+
+            .upload-zone .file-label {
+                padding: 2rem 1rem;
             }
         }
     </style>
@@ -427,25 +589,21 @@
                 <h1 class="logo">ChurnGuard AI</h1>
             </div>
             <p class="tagline">Predictive Customer Intelligence for Nigerian Banks</p>
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value">95.2%</div>
-                    <div class="stat-label">Accuracy</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">≤3s</div>
-                    <div class="stat-label">Real-time</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value">127K+</div>
-                    <div class="stat-label">Customers</div>
-                </div>
+            <div class="intro-text">
+                <p>Leverage advanced machine learning to identify at-risk customers before they leave. ChurnGuard AI analyzes customer behavior patterns to predict churn probability and provides actionable retention strategies.</p>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="main-card">
+        <!-- Toggle between single and batch prediction -->
+        <div class="mode-selector">
+            <button class="mode-btn active" onclick="showMode('single')">Single Prediction</button>
+            <button class="mode-btn" onclick="showMode('batch')">Batch Upload</button>
+        </div>
+
+        <!-- Single Prediction Form -->
+        <div class="main-card" id="single-mode">
             <div class="card-header">
                 <h2 class="card-title">Customer Churn Prediction</h2>
             </div>
@@ -528,6 +686,55 @@
             </div>
         </div>
 
+        <!-- Batch Upload Form -->
+        <div class="main-card" id="batch-mode" style="display: none;">
+            <div class="card-header">
+                <h2 class="card-title">Batch Prediction Upload</h2>
+            </div>
+            <div class="card-body">
+                <div class="upload-info">
+                    <h3>Upload Customer Data</h3>
+                    <p>Upload a CSV or Excel file with customer information for batch predictions. Your file should include all required columns.</p>
+                    
+                    <div class="required-columns">
+                        <h4>Required Columns:</h4>
+                        <ul>
+                            <li>age</li>
+                            <li>state</li>
+                            <li>account_type</li>
+                            <li>monthly_income_bracket</li>
+                            <li>avg_monthly_balance</li>
+                            <li>num_transactions_month</li>
+                            <li>mobile_app_logins</li>
+                            <li>customer_support_calls</li>
+                            <li>preferred_channel</li>
+                            <li>tenure_months</li>
+                            <li>credit_score</li>
+                        </ul>
+                    </div>
+
+                    <div class="download-template">
+                        <a href="/download-template" class="template-btn">📥 Download Sample Template</a>
+                    </div>
+                </div>
+
+                <form method="POST" action="/batch-predict" enctype="multipart/form-data">
+                    <div class="upload-zone">
+                        <input type="file" name="file" id="file-input" accept=".csv,.xlsx,.xls" required>
+                        <label for="file-input" class="file-label">
+                            <span class="upload-icon">📄</span>
+                            <span class="upload-text">Click to upload or drag and drop</span>
+                            <span class="upload-subtext">CSV or Excel files only</span>
+                        </label>
+                        <div id="file-name" class="file-name"></div>
+                    </div>
+                    <div class="submit-container">
+                        <button type="submit" class="submit-btn">Process Batch Predictions</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         {% if error %}
         <div class="main-card">
             <div class="card-body">
@@ -596,6 +803,37 @@
     </div>
 
     <script>
+        // Mode switching
+        function showMode(mode) {
+            const singleMode = document.getElementById('single-mode');
+            const batchMode = document.getElementById('batch-mode');
+            const buttons = document.querySelectorAll('.mode-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            if (mode === 'single') {
+                singleMode.style.display = 'block';
+                batchMode.style.display = 'none';
+                buttons[0].classList.add('active');
+            } else {
+                singleMode.style.display = 'none';
+                batchMode.style.display = 'block';
+                buttons[1].classList.add('active');
+            }
+        }
+
+        // File input handler
+        const fileInput = document.getElementById('file-input');
+        if (fileInput) {
+            fileInput.addEventListener('change', function(e) {
+                const fileName = e.target.files[0]?.name;
+                const fileNameDisplay = document.getElementById('file-name');
+                if (fileName) {
+                    fileNameDisplay.textContent = `Selected: ${fileName}`;
+                }
+            });
+        }
+
         {% if show_result and not error %}
         setTimeout(() => document.querySelector('.results').scrollIntoView({behavior:'smooth', block: 'start'}), 150);
         {% endif %}
