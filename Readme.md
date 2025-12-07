@@ -26,7 +26,7 @@ ChurnGuard AI is a machine learning-powered web application that predicts custom
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/churnguard-ai.git
+git clone https://github.com/Olamieee Financial-Services-Churn.git
 cd churnguard-ai
 ```
 
