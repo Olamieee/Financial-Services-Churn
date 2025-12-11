@@ -20,9 +20,9 @@
 
         /* Header */
         .header {
-            background: #f8fafc;
-            border-bottom: 1px solid #cbd5e1;
-            padding: 1.5rem;
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 2.5rem 1.5rem;
         }
 
         .header-content {
@@ -33,46 +33,47 @@
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.5rem;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: #2563eb;
-            border-radius: 8px;
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1.125rem;
+            font-size: 1.375rem;
             color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.875rem;
             font-weight: 700;
             color: #0f172a;
         }
 
         .tagline {
             color: #64748b;
-            font-size: 0.875rem;
-            margin-left: 48px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .intro-text {
-            margin-top: 1.5rem;
+            margin-top: 0;
             padding-top: 1.5rem;
-            border-top: 1px solid #cbd5e1;
+            border-top: 1px solid #e2e8f0;
         }
 
         .intro-text p {
             color: #475569;
             font-size: 0.9375rem;
             line-height: 1.7;
-            max-width: 800px;
+            max-width: 900px;
         }
 
         /* Container */
@@ -486,16 +487,21 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .header {
-                padding: 1rem;
+                padding: 2rem 1rem;
             }
 
             .logo {
+                font-size: 1.5rem;
+            }
+
+            .logo-icon {
+                width: 44px;
+                height: 44px;
                 font-size: 1.25rem;
             }
 
             .tagline {
-                font-size: 0.8125rem;
-                margin-left: 40px;
+                font-size: 0.9375rem;
             }
 
             .intro-text {
@@ -552,14 +558,26 @@
         }
 
         @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
             .logo-icon {
-                width: 36px;
-                height: 36px;
-                font-size: 1rem;
+                width: 40px;
+                height: 40px;
+                font-size: 1.125rem;
+            }
+
+            .logo {
+                font-size: 1.375rem;
+            }
+
+            .tagline {
+                font-size: 0.875rem;
             }
 
             .intro-text p {
-                font-size: 0.8125rem;
+                font-size: 0.875rem;
             }
 
             .mode-selector {
@@ -711,10 +729,6 @@
                             <li>tenure_months</li>
                             <li>credit_score</li>
                         </ul>
-                    </div>
-
-                    <div class="download-template">
-                        <a href="/download-template" class="template-btn">📥 Download Sample Template</a>
                     </div>
                 </div>
 
