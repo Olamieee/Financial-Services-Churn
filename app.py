@@ -7,6 +7,7 @@ import io
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here-change-this'
 
+# Load trained model and preprocessing objects
 model = joblib.load('financial_churn_model.pkl')
 encoder = joblib.load('encoder.pkl')
 scaler = joblib.load('scaler.pkl')
@@ -21,17 +22,21 @@ feature_cols = [
 ]
 
 def process_prediction(df_input):
+    """Process single or batch predictions with encoding and scaling"""
     df_processed = df_input.copy()
     
+    # Encode categorical features
     for col in cat_cols:
         le = encoder[col]
         df_processed[col] = df_processed[col].apply(
             lambda x: le.transform([x])[0] if x in le.classes_ else 0
         )
     
+    # Scale numerical features
     X = df_processed[feature_cols].values.astype(float)
     X_scaled = scaler.transform(X)
     
+    # Generate predictions
     predictions = model.predict(X_scaled)
     probabilities = model.predict_proba(X_scaled)[:, 1]
     
@@ -39,6 +44,7 @@ def process_prediction(df_input):
 
 @app.route('/', methods=['GET'])
 def index():
+    # Retrieve and clear session data
     show_result = session.get('show_result', False)
     prediction = session.get('prediction')
     probability = session.get('probability')
@@ -60,9 +66,10 @@ def index():
         error=error,
         now=datetime.now()
     )
-# Single prediction route
+
 @app.route('/predict', methods=['POST'])
 def predict():
+    """Handle single customer prediction"""
     try:
         data = {}
         for col in feature_cols:
@@ -96,9 +103,9 @@ def predict():
 
     return redirect(url_for('index'))
 
-# Batch prediction route
 @app.route('/batch-predict', methods=['POST'])
 def batch_predict():
+    """Handle batch predictions from CSV/Excel upload"""
     try:
         if 'file' not in request.files:
             session['error'] = "No file uploaded"
@@ -110,6 +117,7 @@ def batch_predict():
             session['error'] = "No file selected"
             return redirect(url_for('index'))
         
+        # Read file based on extension
         if file.filename.endswith('.csv'):
             df = pd.read_csv(file)
         elif file.filename.endswith(('.xlsx', '.xls')):
@@ -118,19 +126,23 @@ def batch_predict():
             session['error'] = "Invalid file format. Please upload CSV or Excel file"
             return redirect(url_for('index'))
         
+        # Validate required columns
         missing_cols = set(feature_cols) - set(df.columns)
         if missing_cols:
             session['error'] = f"Missing required columns: {', '.join(missing_cols)}"
             return redirect(url_for('index'))
         
+        # Process predictions
         predictions, probabilities = process_prediction(df[feature_cols])
         
+        # Add results to dataframe
         df['churn_prediction'] = predictions
         df['churn_probability'] = probabilities
         df['risk_level'] = df['churn_probability'].apply(
             lambda x: 'High' if x > 0.6 else 'Medium' if x > 0.4 else 'Low'
         )
         
+        # Create Excel file in memory
         output = io.BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, index=False, sheet_name='Predictions')
@@ -146,10 +158,10 @@ def batch_predict():
     except Exception as e:
         session['error'] = f"Batch prediction failed: {str(e)}"
         return redirect(url_for('index'))
-    
-# template download route
+
 @app.route('/download-template')
 def download_template():
+    """Generate and download sample CSV template"""
     sample_data = {
         'age': [35, 42],
         'state': ['Lagos', 'FCT'],
@@ -166,6 +178,7 @@ def download_template():
     
     df = pd.DataFrame(sample_data)
     
+    # Create CSV in memory
     output = io.StringIO()
     df.to_csv(output, index=False)
     output.seek(0)
